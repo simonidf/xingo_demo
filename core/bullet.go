@@ -10,7 +10,7 @@ import (
 
 type Bullet struct {
 	FromP   *Player
-	World *WorldMgr
+	battleField *BattleField
 	Id int32
 	X     float32//平面x
 	Y     float32//高度
@@ -22,14 +22,14 @@ type Bullet struct {
 	starttime int64
 }
 
-func NewBullet(fromPlayer *Player,worldMgr *WorldMgr,bid int32) *Bullet {
+func NewBullet(fromPlayer *Player,_battleField *BattleField,bid int32) *Bullet {
 
 	logger.Debug(fmt.Sprintf("StartNewBullet"));
 
 	logger.Debug(fmt.Sprintf("NewBullet"));
 
 	b := &Bullet{
-		World: worldMgr,
+		battleField: _battleField,
 		FromP:   fromPlayer,
 		Id: bid,
 		X:     fromPlayer.X,
@@ -81,14 +81,14 @@ func (this *Bullet) Update() {
 			V :this.V,
 			Deleted:this.deleted,
 		}
-		this.World.MsgCollect.ObjDeleted = append(this.World.MsgCollect.ObjDeleted,msgDeleted);
+		this.battleField.MsgCollect.ObjDeleted = append(this.battleField.MsgCollect.ObjDeleted,msgDeleted);
 	}
 
-	this.World.MsgCollect.ObjMove = append(this.World.MsgCollect.ObjMove,msg);
+	this.battleField.MsgCollect.ObjMove = append(this.battleField.MsgCollect.ObjMove,msg);
 }
 
 func (this *Bullet) CheckHit() {
-	for pid, player := range this.World.Players {
+	for pid, player := range this.battleField.Players {
 
 		if((player.Pid!=this.FromP.Pid) == true){
 			if(this.CheckPlayer(player)){
@@ -104,13 +104,13 @@ func (this *Bullet) CheckHit() {
 					V :this.V,
 					Deleted:this.deleted,
 				}
-				this.World.MsgCollect.ObjMove = append(this.World.MsgCollect.ObjMove,msg);
+				this.battleField.MsgCollect.ObjMove = append(this.battleField.MsgCollect.ObjMove,msg);
 
 				msg2 := &ProtoTest.Hit{
 					Pid:player.Pid,
 					HitHp:10,
 				}
-				this.World.MsgCollect.Hit = append(this.World.MsgCollect.Hit,msg2);
+				this.battleField.MsgCollect.Hit = append(this.battleField.MsgCollect.Hit,msg2);
 
 				break;
 			}

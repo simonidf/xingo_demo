@@ -50,12 +50,12 @@ func (this *Player) SyncSurrouding(){
 	//	msg.Ps = append(msg.Ps, p)
 	//}
 	/*aoi*/
-	pids, err := WorldMgrObj.AoiObj1.GetSurroundingPids(this)
+	pids, err := BattleFieldObj.AoiObj1.GetSurroundingPids(this)
 
 	if err == nil{
 		msg := &pb.SyncPlayers{}
 		for _, pid := range pids{
-			player, err1 := WorldMgrObj.GetPlayer(pid)
+			player, err1 := BattleFieldObj.GetPlayer(pid)
 			if err1 == nil {
 				p := &pb.Player{
 					Pid: pid,
@@ -105,11 +105,11 @@ func (this *Player) SyncSurrouding(){
 }
 
 func (this *Player) UpdatePos(x float32, y float32, z float32,v float32) {
-	oldGridId := WorldMgrObj.AoiObj1.GetGridIDByPos(this.X, this.Z)
+	oldGridId := BattleFieldObj.AoiObj1.GetGridIDByPos(this.X, this.Z)
 	//更新位置的时候判断是否需要更新gridID
-	newGridId := WorldMgrObj.AoiObj1.GetGridIDByPos(x, z)
+	newGridId := BattleFieldObj.AoiObj1.GetGridIDByPos(x, z)
 
-	if newGridId < 0 || newGridId >= WorldMgrObj.AoiObj1.lenX * WorldMgrObj.AoiObj1.lenY{
+	if newGridId < 0 || newGridId >= BattleFieldObj.AoiObj1.lenX * BattleFieldObj.AoiObj1.lenY{
 		//更新的坐标有误直接返回
 		return
 	}
@@ -120,17 +120,17 @@ func (this *Player) UpdatePos(x float32, y float32, z float32,v float32) {
 	this.V = v
 
 	if oldGridId != newGridId{
-		WorldMgrObj.AoiObj1.LeaveAOIFromGrid(this, oldGridId)
-		WorldMgrObj.AoiObj1.Add2AOI(this)
+		BattleFieldObj.AoiObj1.LeaveAOIFromGrid(this, oldGridId)
+		BattleFieldObj.AoiObj1.Add2AOI(this)
 		//需要处理老的aoi消失和新的aoi出生
 		this.OnExchangeAoiGrid(oldGridId, newGridId)
 	}
-	WorldMgrObj.Move(this)
+	BattleFieldObj.Move(this)
 }
 
 func (this *Player)OnExchangeAoiGrid(oldGridId int32, newGridId int32) error{
-	oldAoiGrids, err1 := WorldMgrObj.AoiObj1.GetSurroundingByGridId(oldGridId)
-	newAoiGrids, err2 := WorldMgrObj.AoiObj1.GetSurroundingByGridId(newGridId)
+	oldAoiGrids, err1 := BattleFieldObj.AoiObj1.GetSurroundingByGridId(oldGridId)
+	newAoiGrids, err2 := BattleFieldObj.AoiObj1.GetSurroundingByGridId(newGridId)
 	if err1 != nil || err2 != nil{
 		logger.Error(err1, err2)
 		return errors.New("OnExchangeAoiGrid")
@@ -176,7 +176,7 @@ func (this *Player)OnExchangeAoiGrid(oldGridId int32, newGridId int32) error{
 			}
 			for _, pid := range grid.GetPids(){
 				if pid != this.Pid{
-					p, err := WorldMgrObj.GetPlayer(pid)
+					p, err := BattleFieldObj.GetPlayer(pid)
 					if err == nil{
 						pdata := &pb.BroadCast{
 							Pid : p.Pid,
@@ -204,7 +204,7 @@ func (this *Player)OnExchangeAoiGrid(oldGridId int32, newGridId int32) error{
 			}
 			for _, pid := range grid.GetPids(){
 				if pid != this.Pid{
-					p, err := WorldMgrObj.GetPlayer(pid)
+					p, err := BattleFieldObj.GetPlayer(pid)
 					if err == nil{
 						pdata := &pb.SyncPid{
 							Pid: p.Pid,
@@ -228,14 +228,14 @@ func (this *Player) Talk(content string){
 		},
 	}
 
-	WorldMgrObj.BroadcastBuff(200, data)
+	BattleFieldObj.BroadcastBuff(200, data)
 }
 
 func (this *Player) LostConnection(){
 	msg := &pb.SyncPid{
 		Pid: this.Pid,
 	}
-	WorldMgrObj.Broadcast(201, msg)
+	BattleFieldObj.Broadcast(201, msg)
 }
 
 func (this *Player) SendMsg(msgId uint32, data proto.Message) {

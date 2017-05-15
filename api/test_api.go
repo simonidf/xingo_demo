@@ -39,7 +39,7 @@ func (this *TestRouter) Api_2(request *fnet.PkgAll) {
 		logger.Debug(fmt.Sprintf("user talk: content: %s.", msg.Content))
 		pid, err1 := request.Fconn.GetProperty("pid")
 		if err1 == nil{
-			p, _ := core.WorldMgrObj.GetPlayer(pid.(int32))
+			p, _ := core.BattleFieldObj.GetPlayer(pid.(int32))
 			p.Talk(msg.Content)
 		}else{
 			logger.Error(err1)
@@ -62,7 +62,7 @@ func (this *TestRouter) Api_3(request *fnet.PkgAll) {
 		logger.Debug(fmt.Sprintf("user move: (%f, %f, %f, %f)", msg.X, msg.Y, msg.Z, msg.V))
 		pid, err1 := request.Fconn.GetProperty("pid")
 		if err1 == nil{
-			p, _ := core.WorldMgrObj.GetPlayer(pid.(int32))
+			p, _ := core.BattleFieldObj.GetPlayer(pid.(int32))
 			p.UpdatePos(msg.X, msg.Y, msg.Z, msg.V)
 		}else{
 			logger.Error(err1)
@@ -86,8 +86,8 @@ func (this *TestRouter) Api_4(request *fnet.PkgAll) {
 		if err1 == nil{
 			logger.Debug(fmt.Sprintf("AttackAction: (%d)", pid))
 
-			p, _ := core.WorldMgrObj.GetPlayer(pid.(int32))
-			core.WorldMgrObj.AddBullet(p.Pid);
+			p, _ := core.BattleFieldObj.GetPlayer(pid.(int32))
+			core.BattleFieldObj.AddBullet(p.Pid);
 		}else{
 			logger.Error(err1)
 			request.Fconn.LostConnection()
