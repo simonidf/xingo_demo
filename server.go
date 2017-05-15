@@ -12,6 +12,15 @@ import (
 	"fmt"
 )
 
+func main() {
+	network.NetWorkObj.AddRouter(&api.ApiRouter{});
+	network.NetWorkObj.SetOnConnect(DoConnectionMade);
+	network.NetWorkObj.SetOnClose(DoConnectionLost);
+	network.NetWorkObj.Run();
+
+	core.BattleFieldObj.Init();
+}
+
 func DoConnectionMade(fconn iface.Iconnection) {
 	fmt.Printf("Connected")
 	p, _ := core.BattleFieldObj.AddPlayer(fconn)
@@ -26,13 +35,4 @@ func DoConnectionLost(fconn iface.Iconnection) {
 	core.BattleFieldObj.RemovePlayer(pid.(int32))
 	//消失在地图
 	p.LostConnection()
-}
-
-func main() {
-	network.NetWorkObj.AddRouter(&api.TestRouter{});
-	network.NetWorkObj.SetOnConnect(DoConnectionMade);
-	network.NetWorkObj.SetOnClose(DoConnectionLost);
-	network.NetWorkObj.Run();
-
-	core.BattleFieldObj.Init();
 }

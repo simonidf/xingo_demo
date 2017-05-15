@@ -12,13 +12,13 @@ import (
 	"github.com/viphxin/xingo/utils"
 )
 
-type TestRouter struct {
+type ApiRouter struct {
 }
 
 /*
 ping test
 */
-func (this *TestRouter) Api_0(request *fnet.PkgAll) {
+func (this *ApiRouter) Api_0(request *fnet.PkgAll) {
 	logger.Debug("call Api_0")
 	// request.Fconn.SendBuff(0, nil)
 	packdata, err := utils.GlobalObject.Protoc.GetDataPack().Pack(0, nil)
@@ -32,7 +32,7 @@ func (this *TestRouter) Api_0(request *fnet.PkgAll) {
 /*
 世界聊天
  */
-func (this *TestRouter) Api_2(request *fnet.PkgAll) {
+func (this *ApiRouter) Api_2(request *fnet.PkgAll) {
 	msg := &pb.Talk{}
 	err := proto.Unmarshal(request.Pdata.Data, msg)
 	if err == nil {
@@ -55,7 +55,7 @@ func (this *TestRouter) Api_2(request *fnet.PkgAll) {
 /*
 移动
  */
-func (this *TestRouter) Api_3(request *fnet.PkgAll) {
+func (this *ApiRouter) Api_3(request *fnet.PkgAll) {
 	msg := &pb.Position{}
 	err := proto.Unmarshal(request.Pdata.Data, msg)
 	if err == nil {
@@ -78,7 +78,7 @@ func (this *TestRouter) Api_3(request *fnet.PkgAll) {
 /*
 hahahah
  */
-func (this *TestRouter) Api_4(request *fnet.PkgAll) {
+func (this *ApiRouter) Api_4(request *fnet.PkgAll) {
 	msg := &ProtoTest.AttackAction{}
 	err := proto.Unmarshal(request.Pdata.Data, msg)
 	if err == nil {
