@@ -31,6 +31,38 @@ func init() {
 
 }
 
+func NewBattleField() *BattleField{
+	battleFieldObj := &BattleField{
+		PlayerNumGen:    0,
+		Players:         make(map[int32]*Player),
+		BulletNumGen: 0,
+		Bullets: make(map[int32]*Bullet),
+		AoiObj1:          NewAOIMgr(85, 410, 75, 400, 10, 20),
+		MsgCollect:&ProtoTest.FrameInfo{
+			NewPlayer: make([]*ProtoTest.PlayerInfo, 0),
+			PlayerMove: make([]*ProtoTest.PlayerInfo, 0),
+			PlayerDead: make([]*ProtoTest.PlayerInfo, 0),
+			AttackAction: make([]*ProtoTest.AttackAction, 0),
+			Hit: make([]*ProtoTest.Hit, 0),
+			SkillPrepare: make([]*ProtoTest.SkillInfo, 0),
+			SkillCancel: make([]*ProtoTest.SkillInfo, 0),
+			SkillStartUp:make([]*ProtoTest.SkillInfo, 0),
+			PlayerRelife: make([]*ProtoTest.PlayerInfo, 0),
+			ObjBorn: make([]*ProtoTest.ObjInfo, 0),
+			ObjMove: make([]*ProtoTest.ObjInfo, 0),
+			ObjDeleted: make([]*ProtoTest.ObjInfo, 0),
+			SkillObjBorn: make([]*ProtoTest.SkillObjInfo, 0),
+			SkillObjMove: make([]*ProtoTest.SkillObjInfo, 0),
+			SkillObjDeleted: make([]*ProtoTest.SkillObjInfo, 0),
+		},
+	}
+	return battleFieldObj;
+}
+
+func (this *BattleField)RunFrameRate(){
+	go BattleFieldObj.LoopPush();
+}
+
 func (this *BattleField)Init() {
 	BattleFieldObj = &BattleField{
 		PlayerNumGen:    0,
