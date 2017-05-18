@@ -4,6 +4,7 @@ import (
 	"xingo_demo/pb"
 	"xingo_demo/ProtoTest"
 	"xingo_demo/core"
+	"xingo_demo/room"
 	"github.com/golang/protobuf/proto"
 	"github.com/viphxin/xingo/fnet"
 	"github.com/viphxin/xingo/logger"
@@ -79,19 +80,41 @@ func (this *ApiRouter) Api_3(request *fnet.PkgAll) {
 hahahah
  */
 func (this *ApiRouter) Api_4(request *fnet.PkgAll) {
-	msg := &ProtoTest.AttackAction{}
+	//fmt.Printf("Api_4")
+	//msg := &ProtoTest.AttackAction{}
+	//err := proto.Unmarshal(request.Pdata.Data, msg)
+	//if err == nil {
+	//	pid, err1 := request.Fconn.GetProperty("pid")
+	//	if err1 == nil{
+	//		logger.Debug(fmt.Sprintf("AttackAction: (%d)", pid))
+	//
+	//		p, _ := core.BattleFieldObj.GetPlayer(pid.(int32))
+	//		core.BattleFieldObj.AddBullet(p.Pid);
+	//	}else{
+	//		logger.Error(err1)
+	//		request.Fconn.LostConnection()
+	//	}
+	//
+	//
+	//
+	//} else {
+	//	logger.Error(err)
+	//	request.Fconn.LostConnection()
+	//}
+}
+
+func (this *ApiRouter) Api_5(request *fnet.PkgAll) {
+	fmt.Printf("Api_5")
+	msg := &ProtoTest.CredentialInfo{}
 	err := proto.Unmarshal(request.Pdata.Data, msg)
 	if err == nil {
-		pid, err1 := request.Fconn.GetProperty("pid")
-		if err1 == nil{
-			logger.Debug(fmt.Sprintf("AttackAction: (%d)", pid))
+		logger.Debug(fmt.Sprintf("CredentialInfo: (%s)", msg.Cre))
 
-			p, _ := core.BattleFieldObj.GetPlayer(pid.(int32))
-			core.BattleFieldObj.AddBullet(p.Pid);
-		}else{
-			logger.Error(err1)
-			request.Fconn.LostConnection()
-		}
+		bid,_:=room.RoomMgrObj.GetBidForCre(msg.Cre);
+
+		request.Fconn.SetProperty("cre",msg.Cre);
+
+		room.RoomMgrObj.AddPlayerToBattle(request.Fconn,bid);
 
 
 

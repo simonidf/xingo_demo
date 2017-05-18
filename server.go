@@ -3,7 +3,6 @@ package main
 import (
 	"github.com/viphxin/xingo/iface"
 	"xingo_demo/api"
-	"xingo_demo/core"
 	"xingo_demo/network"
 	"xingo_demo/room"
 	_ "net/http"
@@ -18,8 +17,6 @@ import (
 
 func HelloServer(w http.ResponseWriter, req *http.Request) {
 	io.WriteString(w, "hello, world hahahah!\n")
-
-
 }
 
 func HttpServer(){
@@ -33,6 +30,10 @@ fmt.Printf("ListenAndServe:12345");
 }
 
 func main() {
+	RunServer();
+}
+
+func RunServer(){
 	go HttpServer();
 
 	network.NetWorkObj.AddRouter(&api.ApiRouter{});
@@ -40,25 +41,16 @@ func main() {
 	network.NetWorkObj.SetOnClose(DoConnectionLost);
 	network.NetWorkObj.Run();
 
-	core.BattleFieldObj.Init();
-
 	room.RoomMgrObj.Init();
-
-
 }
 
 func DoConnectionMade(fconn iface.Iconnection) {
 	fmt.Printf("Connected")
-	p, _ := core.BattleFieldObj.AddPlayer(fconn)
-	fconn.SetProperty("pid", p.Pid)
+	//p, _ := core.BattleFieldObj.AddPlayer(fconn)
+	//fconn.SetProperty("pid", p.Pid)
 }
 
 func DoConnectionLost(fconn iface.Iconnection) {
-	fmt.Printf("Lost")
-	pid, _ := fconn.GetProperty("pid")
-	p, _ := core.BattleFieldObj.GetPlayer(pid.(int32))
-	//移除玩家
-	core.BattleFieldObj.RemovePlayer(pid.(int32))
-	//消失在地图
-	p.LostConnection()
+	fmt.Printf("Lost");
+	room.RoomMgrObj.OnPlayerLost(fconn);
 }

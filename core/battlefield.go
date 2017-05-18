@@ -16,6 +16,7 @@ import (
 
 //noinspection ALL
 type BattleField struct {
+	Bid int32
 	PlayerNumGen int32
 	BulletNumGen int32
 	Players      map[int32]*Player
@@ -28,7 +29,7 @@ type BattleField struct {
 var BattleFieldObj *BattleField
 
 func init() {
-
+	BattleFieldObj = NewBattleField();
 }
 
 func NewBattleField() *BattleField{
