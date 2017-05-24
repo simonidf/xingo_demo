@@ -44,7 +44,7 @@ func RunServer(){
 
 	room.RoomMgrObj.Init();
 
-	///logerr
+	fmt.Printf("ListenAndServe:12345");
 }
 
 func DoConnectionMade(fconn iface.Iconnection) {
