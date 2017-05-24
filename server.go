@@ -43,6 +43,8 @@ func RunServer(){
 	network.NetWorkObj.Run();
 
 	room.RoomMgrObj.Init();
+
+	///logerr
 }
 
 func DoConnectionMade(fconn iface.Iconnection) {
