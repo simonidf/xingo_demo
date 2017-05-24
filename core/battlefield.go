@@ -112,6 +112,22 @@ func (this *BattleField)AddPlayer(fconn iface.Iconnection) (*Player, error) {
 	//this.AoiObj1.Add2AOI(p)
 	//周围的人
 	//p.SyncSurrouding()
+
+	data := &pb.BroadCast{
+		Pid : p.Pid,
+		Tp: 2,
+		Data: &pb.BroadCast_P{
+			P: &pb.Position{
+				X: p.X,
+				Y: p.Y,
+				Z: p.Z,
+				V: p.V,
+			},
+		},
+	}
+
+	this.Broadcast(200,data);
+
 	return p, nil
 }
 
