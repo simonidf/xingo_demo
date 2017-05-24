@@ -105,27 +105,27 @@ func (this *Player) SyncSurrouding(){
 }
 
 func (this *Player) UpdatePos(x float32, y float32, z float32,v float32) {
-	oldGridId := BattleFieldObj.AoiObj1.GetGridIDByPos(this.X, this.Z)
-	//更新位置的时候判断是否需要更新gridID
-	newGridId := BattleFieldObj.AoiObj1.GetGridIDByPos(x, z)
-
-	if newGridId < 0 || newGridId >= BattleFieldObj.AoiObj1.lenX * BattleFieldObj.AoiObj1.lenY{
-		//更新的坐标有误直接返回
-		return
-	}
+	//oldGridId := BattleFieldObj.AoiObj1.GetGridIDByPos(this.X, this.Z)
+	////更新位置的时候判断是否需要更新gridID
+	//newGridId := BattleFieldObj.AoiObj1.GetGridIDByPos(x, z)
+	//
+	//if newGridId < 0 || newGridId >= BattleFieldObj.AoiObj1.lenX * BattleFieldObj.AoiObj1.lenY{
+	//	//更新的坐标有误直接返回
+	//	return
+	//}
 	//更新
 	this.X = x
 	this.Y = y
 	this.Z = z
 	this.V = v
 
-	if oldGridId != newGridId{
-		BattleFieldObj.AoiObj1.LeaveAOIFromGrid(this, oldGridId)
-		BattleFieldObj.AoiObj1.Add2AOI(this)
-		//需要处理老的aoi消失和新的aoi出生
-		this.OnExchangeAoiGrid(oldGridId, newGridId)
-	}
-	BattleFieldObj.Move(this)
+	//if oldGridId != newGridId{
+	//	BattleFieldObj.AoiObj1.LeaveAOIFromGrid(this, oldGridId)
+	//	BattleFieldObj.AoiObj1.Add2AOI(this)
+	//	//需要处理老的aoi消失和新的aoi出生
+	//	this.OnExchangeAoiGrid(oldGridId, newGridId)
+	//}
+	//BattleFieldObj.Move(this)
 }
 
 func (this *Player)OnExchangeAoiGrid(oldGridId int32, newGridId int32) error{

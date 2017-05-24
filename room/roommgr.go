@@ -22,6 +22,7 @@ func init() {
 		RoomNumGen:    0,
 		BattleFields:         make(map[int32]*core.BattleField),
 		PidToBattleId:         make(map[int32]int32),
+		CreToBattleId:  make(map[string]int32),
 	}
 }
 
@@ -39,35 +40,51 @@ func (this *RoomMgr)CreateNewRoom() (*core.BattleField, error) {
 	return battleField, nil
 }
 
-func (this *RoomMgr)GetBidForCre(cre string) (int32, error) {
+func (this *RoomMgr)GetBidForCre(cre string) (int32) {
 
 	bid := this.CreToBattleId[cre];
 
-	return bid, nil
+	return bid
 }
 
 func (this *RoomMgr)CreateNewRoomForPlayerGroup(credentialArray []string) (error) {
 	this.Lock();
 
 	battleField := core.NewBattleField();
+
+	fmt.Println(battleField);
+
 	battleField.Bid = this.RoomNumGen;
 
-	this.RoomNumGen += 1;
-
 	for _, cre := range credentialArray{
+		fmt.Println(cre);
 		this.CreToBattleId[cre] = battleField.Bid;
+		fmt.Println(battleField.Bid)
 	}
 
 	this.BattleFields[this.RoomNumGen] = battleField;
+
+	this.RoomNumGen += 1;
 	this.Unlock();
 	return  nil;
 }
 
 func (this *RoomMgr)AddPlayerToBattle(fconn iface.Iconnection,bid int32){
-	fmt.Printf("AddPlayerToBattle")
+
+	fmt.Println("AddPlayerToBattle bid " + string(bid));
+
+	fmt.Println("AddPlayerToBattle1111");
+
 	room := this.BattleFields[bid];
+
+	fmt.Println("AddPlayerToBattle2222")
+	fmt.Println(room);
 	p, _ := room.AddPlayer(fconn);
+
 	fconn.SetProperty("pid", p.Pid);
+
+	fmt.Println("AddPlayerToBattle3333")
+
 
 	if(len(room.Players) == 1){
 		room.RunFrameRate();
@@ -80,6 +97,14 @@ func (this *RoomMgr)GetBidByCre(cre string) int32 {
 	bid := this.CreToBattleId[string(cre)];
 
 	return bid;
+}
+
+func (this *RoomMgr)GetRoomByCre(cre string) *core.BattleField {
+	fmt.Printf("GetBidByCre");
+
+	bid := this.CreToBattleId[string(cre)];
+
+	return this.BattleFields[bid];
 }
 
 func (this *RoomMgr)OnPlayerLost(fconn iface.Iconnection) {

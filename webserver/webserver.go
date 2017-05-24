@@ -16,7 +16,7 @@ func WebServerBase() {
 	http.HandleFunc("/create_room_for_group", handleCreateRoom)
 
 	//服务器要监听的主机地址和端口号
-	err := http.ListenAndServe("192.168.70.6:30001", nil)
+	err := http.ListenAndServe("127.0.0.1:30001", nil)
 
 	if err != nil {
 		fmt.Println("ListenAndServe error: ", err.Error())
@@ -33,6 +33,10 @@ func handleCreateRoom(w http.ResponseWriter, req *http.Request) {
 	req.ParseForm()
 	credentials, found1 := req.Form["credentials"]
 
+	fmt.Println(req)
+
+	fmt.Println(credentials)
+
 
 	if !(found1) {
 		fmt.Fprint(w, "请勿非法访问")
@@ -40,8 +44,10 @@ func handleCreateRoom(w http.ResponseWriter, req *http.Request) {
 	}
 
 	result := NewBaseJsonBean()
-	fmt.Println(credentials)
-	var credentialArray = strings.Split(credentials,',');
+
+	var credentialArray []string
+
+	credentialArray = strings.Split(credentials[0],",");
 
 	if(room.RoomMgrObj.CreateNewRoomForPlayerGroup(credentialArray) == nil){
 		result.Code = 200

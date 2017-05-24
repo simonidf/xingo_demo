@@ -5,6 +5,7 @@ import (
 	"xingo_demo/api"
 	"xingo_demo/network"
 	"xingo_demo/room"
+	"xingo_demo/webserver"
 	_ "net/http"
 	_ "net/http/pprof"
 	_ "runtime/pprof"
@@ -34,7 +35,7 @@ func main() {
 }
 
 func RunServer(){
-	go HttpServer();
+	go webserver.WebServerBase();
 
 	network.NetWorkObj.AddRouter(&api.ApiRouter{});
 	network.NetWorkObj.SetOnConnect(DoConnectionMade);
