@@ -17,6 +17,21 @@ type Player struct {
 	Y     float32//高度
 	Z     float32//平面y!!!!!注意不是Y
 	V     float32//旋转0-360度
+	HP int32
+	HPLimit int32
+	HPRecoverSpeed int32
+	Power int32
+	PowerLimit int32
+	PowerRecoverSpeed int32
+	RotateSpeed int32
+	MoveSpeed int32
+	ViewRange int32
+	AD int32
+	AP int32
+	AntiAD int32
+	AntiAP int32
+	Acceleration int32
+	Equipments      map[int32]*Equipment
 }
 
 func NewPlayer(fconn iface.Iconnection, pid int32) *Player {

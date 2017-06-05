@@ -11,9 +11,6 @@ import (
 	_ "runtime/pprof"
 	_ "time"
 	"fmt"
-	"io"
-	"log"
-	"net/http"
 )
 
 func main() {
