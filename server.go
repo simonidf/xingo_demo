@@ -16,20 +16,6 @@ import (
 	"net/http"
 )
 
-func HelloServer(w http.ResponseWriter, req *http.Request) {
-	io.WriteString(w, "hello, world hahahah!\n")
-}
-
-func HttpServer(){
-http.HandleFunc("/hello", HelloServer)
-err := http.ListenAndServe(":12345", nil)
-if err != nil {
-log.Fatal("ListenAndServe: ", err)
-}else{
-fmt.Printf("ListenAndServe:12345");
-}
-}
-
 func main() {
 	RunServer();
 }
@@ -44,13 +30,12 @@ func RunServer(){
 
 	room.RoomMgrObj.Init();
 
-	fmt.Printf("ListenAndServe:12345");
+	fmt.Printf("Running...");
 }
 
 func DoConnectionMade(fconn iface.Iconnection) {
 	fmt.Printf("Connected")
-	//p, _ := core.BattleFieldObj.AddPlayer(fconn)
-	//fconn.SetProperty("pid", p.Pid)
+	//do nothing but wait for player send cre to join a room
 }
 
 func DoConnectionLost(fconn iface.Iconnection) {
