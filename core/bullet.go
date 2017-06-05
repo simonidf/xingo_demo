@@ -106,13 +106,26 @@ func (this *Bullet) CheckHit() {
 					V :this.V,
 					Deleted:this.deleted,
 				}
+
 				this.battleField.MsgCollect.ObjMove = append(this.battleField.MsgCollect.ObjMove,msg);
 
 				msg2 := &ProtoTest.Hit{
 					Pid:player.Pid,
-					HitHp:10,
+					HitHp:this.AD,
 				}
 				this.battleField.MsgCollect.Hit = append(this.battleField.MsgCollect.Hit,msg2);
+
+				player.HP -= this.AD;
+				if(player.HP<=0){
+					player.HP = 0;
+					player.ALIVE = false;
+				}
+
+				msg3 := &ProtoTest.PlayerInfo{
+					Pid:player.Pid,
+					Dead:player.ALIVE,
+				}
+				this.battleField.MsgCollect.Hit = append(this.battleField.MsgCollect.PlayerDead,msg3);
 
 				break;
 			}

@@ -31,6 +31,7 @@ type Player struct {
 	AntiAD int32
 	AntiAP int32
 	Acceleration int32
+	ALIVE bool
 	Equipments      map[int32]*Equipment
 }
 
@@ -44,6 +45,7 @@ func NewPlayer(fconn iface.Iconnection, pid int32) *Player {
 		V:     0,
 		AD: 10,
 		HP:30,
+		ALIVE:true,
 	}
 
 	return p
