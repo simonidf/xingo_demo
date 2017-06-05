@@ -1,0 +1,127 @@
+syntax = "proto3";  
+package ProtoTest;   
+
+message SkillInfo{
+	int32 pid = 1;
+	int32 skillid = 2;
+}
+
+message BulletBorn{
+	float id = 1;
+	float x = 2;
+	float y = 3;
+	float z = 4;
+	float v = 5;
+}
+
+message BulletMove{
+	float id = 1;
+	float x = 2;
+	float y = 3;
+	float z = 4;
+	float v = 5;
+	bool deleted = 6;
+}
+
+message AttackAction{
+	int32 pid = 1;
+}
+
+message Hit{
+	int32 hitHp = 1;
+	int32 pid = 2;
+}
+
+message PlayerInfo{
+	int32 pid = 1;
+	float x = 2;
+	float y = 3;
+	float z = 4;
+	float v = 5;
+	bool dead = 6;
+}
+
+message ObjInfo{
+	int32 id = 1;
+	float x = 2;
+	float y = 3;
+	float z = 4;
+	float v = 5;
+	bool deleted = 6;
+}
+
+message SkillObjInfo{
+	int32 id = 1;
+	float x = 2;
+	float y = 3;
+	float z = 4;
+	float v = 5;
+	bool deleted = 6;
+}
+
+message CredentialInfo{
+	string cre = 1;
+}
+
+message PlayerConnectionProgress{
+	int32 pid = 1;
+	float progress = 2;
+}
+
+message AllConnectionProgress{
+	repeated PlayerConnectionProgress progresses = 2;
+}
+
+message AllPlayerPos{
+	repeated PlayerInfo players = 1;
+}
+
+message GameStart{
+	bool start = 1;
+}
+
+message FrameInfo{
+	repeated PlayerInfo newPlayer = 1;
+	repeated PlayerInfo playerMove = 2;
+	repeated PlayerInfo playerDead = 3;
+	repeated AttackAction attackAction = 4;
+	repeated Hit hit = 5;
+	repeated SkillInfo skillPrepare = 6;
+	repeated SkillInfo skillCancel = 7;
+	repeated SkillInfo skillStartUp = 8;
+	repeated PlayerInfo playerRelife = 9;
+	repeated ObjInfo objBorn = 10;
+	repeated ObjInfo objMove = 11;
+	repeated ObjInfo objDeleted = 12;
+	repeated SkillObjInfo skillObjBorn = 13;
+	repeated SkillObjInfo skillObjMove = 14;
+	repeated SkillObjInfo skillObjDeleted = 15;
+}
+
+
+
+//msgid define
+//c-s attackMsg:4
+//c-s moveMsg:5
+//c-s skillPrepare:6
+//c-s skillStartUp:7
+
+//s-c attackMsg:101
+//s-c hit:102
+//s-c playerBorn:103
+//s-c playerMove:104
+//s-c playerDead:105
+//s-c playerRelife:106
+//s-c skillPrepare:107
+//s-c skillCancel:108
+//s-c skillStartUp:109
+//s-c skillObjBorn:110
+//s-c skillObjMove:111
+//s-c skillObjDeleted:112
+
+//s-c ObjBorn:113
+//s-c ObjMove:114
+//s-c ObjDeleted:115
+
+
+

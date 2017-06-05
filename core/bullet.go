@@ -11,6 +11,7 @@ import (
 type Bullet struct {
 	FromP   *Player
 	battleField *BattleField
+	AD int32
 	Id int32
 	X     float32//平面x
 	Y     float32//高度
@@ -31,6 +32,7 @@ func NewBullet(fromPlayer *Player,_battleField *BattleField,bid int32) *Bullet {
 	b := &Bullet{
 		battleField: _battleField,
 		FromP:   fromPlayer,
+		AD: fromPlayer.AD,
 		Id: bid,
 		X:     fromPlayer.X,
 		Y:    fromPlayer.Y + 1,

@@ -42,6 +42,8 @@ func NewPlayer(fconn iface.Iconnection, pid int32) *Player {
 		Y:     0,
 		Z:     float32(rand.Intn(17) + 134),
 		V:     0,
+		AD: 10,
+		HP:30,
 	}
 
 	return p
